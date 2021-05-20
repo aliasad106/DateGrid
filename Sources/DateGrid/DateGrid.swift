@@ -68,10 +68,20 @@ struct MonthsOrWeeks<DateView>: View where DateView: View {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDaysInAWeek), spacing: 0) {
                     
                     ForEach(viewModel.days(for: monthOrWeek), id: \.self) { date in
-                        
                         let dateGridDate = DateGridDate(date: date, currentMonth: monthOrWeek)
+                        switch viewModel.mode{
+                        case .month(estimateHeight: _):
+                            if viewModel.calendar.isDate(date, equalTo: monthOrWeek, toGranularity: .month){
+                                content(dateGridDate)
+                                    .id(date)
+                            }else{
+                                content(dateGridDate).hidden()
+                            }
+                        case .week(estimateHeight: _):
                             content(dateGridDate)
                                 .id(date)
+                        }
+                        
                     }
                 }
                 .tag(monthOrWeek)
