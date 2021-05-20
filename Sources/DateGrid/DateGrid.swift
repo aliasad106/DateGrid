@@ -70,14 +70,8 @@ struct MonthsOrWeeks<DateView>: View where DateView: View {
                     ForEach(viewModel.days(for: monthOrWeek), id: \.self) { date in
                         
                         let dateGridDate = DateGridDate(date: date, currentMonth: monthOrWeek)
-                        if viewModel.calendar.isDate(date, equalTo: monthOrWeek, toGranularity: .month) {
                             content(dateGridDate)
                                 .id(date)
-                            
-                        } else {
-                            content(dateGridDate)
-                                .hidden()
-                        }
                     }
                 }
                 .tag(monthOrWeek)
